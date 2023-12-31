@@ -48,7 +48,7 @@ class UserRequest extends FormRequest
                 'email'=>"required|email",
                 'first_name'=>"required",
                 'last_name'=>"required",
-                'phone_number'=>"required|min:11|max:11",
+                'phone_number'=>"required|min:11",
                 'role'=>"required|in:user,rider",
                 'password'=>"required|min:6|max:50",
             ];
