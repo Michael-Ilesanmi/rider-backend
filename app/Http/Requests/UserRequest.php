@@ -45,10 +45,10 @@ class UserRequest extends FormRequest
     {
         if ($this->routeIs('register')) {
             return [
-                'email'=>"required|email",
+                'email'=>"required|email|unique:users,email",
                 'first_name'=>"required",
                 'last_name'=>"required",
-                'phone_number'=>"required|min:11",
+                'phone_number'=>"required|min:11unique:users,phone_number",
                 'role'=>"required|in:user,rider",
                 'password'=>"required|min:6|max:50",
             ];

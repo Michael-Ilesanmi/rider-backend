@@ -13,12 +13,17 @@ class UserController extends Controller
 {
     public function register(UserRequest $request) : JsonResponse
     {
-        $user = $request->all();
-        $user['password'] = bcrypt($user['password']);
-        User::updateOrCreate(['email'=>$user['email']], $user);
-        $token = auth()->attempt($request->safe()->only(['email', 'password']));
-        $user = User::find(auth()->user()->id);
-        return ResponseController::response(true, ['token'=>$token, 'user'=>$user], Response::HTTP_CREATED);
+        try {
+            //code...
+            $user = $request->all();
+            $user['password'] = bcrypt($user['password']);
+            User::create($user);
+            $token = auth()->attempt($request->safe()->only(['email', 'password']));
+            $user = User::find(auth()->user()->id);
+            return ResponseController::response(true, ['token'=>$token, 'user'=>$user], Response::HTTP_CREATED);
+        } catch (\Throwable $error) {
+            return ResponseController::response(false, $error->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function login(UserRequest $request) : JsonResponse 
