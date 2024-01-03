@@ -45,8 +45,8 @@ class OrderRequest extends FormRequest
     {
         if ($this->routeIs('place-order')) {
             return [
-                'pickup'=>"required|exists:cities,id",
-                'delivery'=>"required|exists:cities,id",
+                'pickup'=>"required",
+                'delivery'=>"required",
                 'weight'=>"required",
                 'price'=>"required|integer|min:1000",
             ];

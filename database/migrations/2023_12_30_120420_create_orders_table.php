@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate();
             $table->foreignId('rider_id')->nullable()->constrained('users')->cascadeOnUpdate();
-            $table->foreignId('pickup')->constrained('cities')->cascadeOnUpdate();
-            $table->foreignId('delivery')->constrained('cities')->cascadeOnUpdate();
+            $table->json('pickup');
+            $table->json('delivery');
             $table->float('price')->default(0);
             $table->integer('rating')->default(0);
             $table->boolean('status')->default(false);

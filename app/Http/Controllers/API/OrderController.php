@@ -15,7 +15,9 @@ class OrderController extends Controller
     {
         $data = $request->safe()->only(['pickup','delivery','price']);
         $metadata = [
-            'weight' =>$request->safe()->only(['weight'])['weight']
+            'weight' =>$request->safe()->only(['weight'])['weight'],
+            'pickup' =>$request->safe()->only(['pickup'])['pickup'],
+            'delivery' =>$request->safe()->only(['delivery'])['delivery']
         ];
         $data['metadata'] = collect($metadata);
         $data['user_id'] = auth()->user()->id;
@@ -27,15 +29,15 @@ class OrderController extends Controller
     {
         if (auth()->user()->role == 'user') {
             # code...
-            $orders = Order::with('rider:id,first_name,last_name,phone_number', 'delivery:id,city','pickup:id,city')->where('user_id', auth()->user()->id)->where('status', 0)->get();    
+            $orders = Order::with('rider:id,first_name,last_name,phone_number')->where('user_id', auth()->user()->id)->where('status', 0)->get();    
             return ResponseController::response(true, $orders, Response::HTTP_OK);
         }
         else {
 
-            $orders = Order::with('user:id,first_name,last_name,phone_number', 'delivery:id,city','pickup:id,city')->where('rider_id', auth()->user()->id)->where('status', 0)->get();    
+            $orders = Order::with('user:id,first_name,last_name,phone_number')->where('rider_id', auth()->user()->id)->where('status', 0)->get();    
             if (count($orders) < 1) {
                 # code...
-                $orders = Order::with('user:id,first_name,last_name,phone_number', 'delivery:id,city','pickup:id,city')->whereNull('rider_id')->where('status', 0)->get();    
+                $orders = Order::with('user:id,first_name,last_name,phone_number')->whereNull('rider_id')->where('status', 0)->get();    
             }
             return ResponseController::response(true, $orders, Response::HTTP_OK);
         }
@@ -45,12 +47,12 @@ class OrderController extends Controller
     {
         if (auth()->user()->role == 'user') {
             # code...
-            $orders = Order::with('rider:id,first_name,last_name,phone_number', 'delivery:id,city','pickup:id,city')->where('user_id', auth()->user()->id)->where('status', 1)->get();    
+            $orders = Order::with('rider:id,first_name,last_name,phone_number')->where('user_id', auth()->user()->id)->where('status', 1)->get();    
             return ResponseController::response(true, $orders, Response::HTTP_OK);
         }
         else {
 
-            $orders = Order::with('user:id,first_name,last_name,phone_number', 'delivery:id,city','pickup:id,city')->where('rider_id', auth()->user()->id)->where('status', 1)->get();
+            $orders = Order::with('user:id,first_name,last_name,phone_number')->where('rider_id', auth()->user()->id)->where('status', 1)->get();
             return ResponseController::response(true, $orders, Response::HTTP_OK);
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +16,8 @@ class Order extends Model
 
     protected $casts = [
         'metadata' => AsCollection::class,
+        'pickup' => AsArrayObject::class,
+        'delivery' => AsArrayObject::class,
     ];
 
     public function rider() : BelongsTo 
@@ -24,13 +27,5 @@ class Order extends Model
     public function user() : BelongsTo 
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-    public function pickup() : BelongsTo 
-    {
-        return $this->belongsTo(City::class, 'pickup');
-    }
-    public function delivery() : BelongsTo 
-    {
-        return $this->belongsTo(City::class, 'delivery');
     }
 }
